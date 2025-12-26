@@ -2,10 +2,18 @@ import React, { useState } from "react";
 import { cx } from "@emotion/css";
 import PersonIcon from "@mui/icons-material/Person";
 import { styles } from "./LoginStyles";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [name, setName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const navigate = useNavigate();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Submitted:", { name, password });
+    navigate("/dashboard");
+  };
   return (
     <div className={cx(styles.root)}>
       <div className={cx(styles.container)}>
@@ -18,7 +26,7 @@ const Login = () => {
             Insert your credentials to access your account
           </h2>
         </div>
-        <form className={cx(styles.formGroup)}>
+        <form className={cx(styles.formGroup)} onSubmit={handleSubmit}>
           <label className={styles.labelWrapper}>
             <p className={cx(styles.labelTitle)}>name or user</p>
             <div className={cx(styles.inputWrapper)}>
@@ -41,24 +49,19 @@ const Login = () => {
               </div>
               <input
                 className={cx(styles.inputField)}
+                type="password"
                 placeholder="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
           </label>
+          <div className={cx(styles.bottomContainer)}>
+            <button className={cx(styles.button)} type="submit">
+              <span>Log in</span>
+            </button>
+          </div>
         </form>
-        <div className={cx(styles.bottomContainer)}>
-          <button
-            className={cx(styles.button)}
-            type="submit"
-            onClick={() => {
-              console.log("Logging in user:", name);
-            }}
-          >
-            <span>Log in</span>
-          </button>
-        </div>
       </div>
     </div>
   );
