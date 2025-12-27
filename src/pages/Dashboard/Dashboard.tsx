@@ -1,7 +1,8 @@
 import { useState } from "react";
 import CircularProgressComponent from "../../components/CircularProgressComponent";
 import { Button, TextField } from "@mui/material";
-import Modal from "../../components/Modal";
+import Modal from "../../components/Modal/Modal";
+import ExpensesForm from "../../components/ExpensesForm/ExpensesForm";
 
 const Dashboard = () => {
   const [budgetInput, setBudgetInput] = useState<number>(0);
@@ -17,8 +18,8 @@ const Dashboard = () => {
         background: "rgba(16, 22, 34)",
       }}
     >
-      <Modal open={openModalExpense}>
-        <div>este es el modal ejemplo</div>
+      <Modal open={openModalExpense} onClose={() => setOpenModalExpense(false)}>
+        <ExpensesForm onClose={() => setOpenModalExpense(false)} />
       </Modal>
       <div
         style={{
