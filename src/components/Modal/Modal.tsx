@@ -1,5 +1,5 @@
 import { cx } from "@emotion/css";
-import { Button, Dialog } from "@mui/material";
+import { Dialog } from "@mui/material";
 import { styles } from "./ModalStyles";
 import React from "react";
 import { Close } from "@mui/icons-material";

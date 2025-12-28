@@ -21,7 +21,7 @@ export const styles = {
   footerModal: css({
     display: "flex",
     justifyContent: "flex-start",
-    padding: "12px 0px",
+    padding: "12px 0px 0px 0px",
     gap: 16,
     boxSizing: "border-box",
   }),

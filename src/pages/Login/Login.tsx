@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { cx } from "@emotion/css";
 import PersonIcon from "@mui/icons-material/Person";
 import { styles } from "./LoginStyles";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [name, setName] = useState<string>("");
