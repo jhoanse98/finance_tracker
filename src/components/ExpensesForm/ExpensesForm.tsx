@@ -7,15 +7,16 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import React from "react";
+
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
-import { styles } from "../Modal/ModalStyles";
+import { styles } from "./ExpensesFormStyles";
 
 interface IFormInput {
   expenseName: string;
   amount: string | number;
   date: string;
   category: string;
+  type: string;
 }
 
 interface Props {
@@ -29,6 +30,7 @@ const ExpensesForm = ({ onClose }: Props) => {
       amount: 0,
       date: "",
       category: "",
+      type: "",
     },
   });
 
@@ -36,7 +38,10 @@ const ExpensesForm = ({ onClose }: Props) => {
     console.log(data);
   };
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form
+      className={cx(styles.formContainer)}
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <Controller
         name="expenseName"
         control={control}
@@ -73,7 +78,11 @@ const ExpensesForm = ({ onClose }: Props) => {
         name="category"
         control={control}
         render={({ field }) => (
-          <FormControl fullWidth variant="standard">
+          <FormControl
+            fullWidth
+            variant="standard"
+            className={cx(styles.select)}
+          >
             <InputLabel id="category">Category</InputLabel>
             <Select fullWidth labelId="category" {...field}>
               <MenuItem value="" disabled>
@@ -84,6 +93,27 @@ const ExpensesForm = ({ onClose }: Props) => {
               <MenuItem value="entertainment">Entertainment</MenuItem>
               <MenuItem value="utilities">Utilities</MenuItem>
               <MenuItem value="others">Others</MenuItem>
+            </Select>
+          </FormControl>
+        )}
+      />
+      <Controller
+        name="type"
+        control={control}
+        render={({ field }) => (
+          <FormControl
+            fullWidth
+            variant="standard"
+            className={cx(styles.select)}
+          >
+            <InputLabel id="type">Type</InputLabel>
+            <Select fullWidth labelId="type" {...field}>
+              <MenuItem value="" disabled>
+                Select type
+              </MenuItem>
+              <MenuItem value="fixed">Fixed</MenuItem>
+              <MenuItem value="ocassional">Occasional</MenuItem>
+              <MenuItem value="Personal">Personal</MenuItem>
             </Select>
           </FormControl>
         )}
