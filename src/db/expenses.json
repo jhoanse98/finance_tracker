@@ -1,0 +1,65 @@
+[
+    {
+        "id":1,
+        "title": "lunch",
+        "amount": 15.0,
+        "date": "2024-06-10",
+        "category": "food",
+        "type": "fixed",
+        "userId": "1"
+    },
+    {
+        "id":2,
+        "title": "lunch",
+        "amount": 15.0,
+        "date": "2024-06-10",
+        "category": "food",
+        "type": "fixed",
+        "userId": "5"
+    },
+    {
+        "id":3,
+        "title": "lunch",
+        "amount": 15.0,
+        "date": "2024-06-10",
+        "category": "transportation",
+        "type": "fixed",
+        "userId": "5"
+    },
+    {
+        "id":4,
+        "title": "Play 5",
+        "amount": 15.0,
+        "date": "2024-06-10",
+        "category": "entertainment",
+        "type": "fixed",
+        "userId": "5"
+    },
+    {
+        "id":5,
+        "title": "table",
+        "amount": 15.0,
+        "date": "2024-06-10",
+        "category": "utilities",
+        "type": "fixed",
+        "userId": "5"
+    },
+        {
+        "id":6,
+        "title": "cellphone",
+        "amount": 15.0,
+        "date": "2024-06-10",
+        "category": "others",
+        "type": "fixed",
+        "userId": "5"
+    },
+    {
+        "id":7,
+        "title": "lunch",
+        "amount": 15.0,
+        "date": "2024-06-10",
+        "category": "food",
+        "type": "fixed",
+        "userId": "3"
+    }
+]
