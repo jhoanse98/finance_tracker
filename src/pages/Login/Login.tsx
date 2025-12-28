@@ -3,15 +3,17 @@ import { cx } from "@emotion/css";
 import PersonIcon from "@mui/icons-material/Person";
 import { styles } from "./LoginStyles";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../auth/useAuth";
 
 const Login = () => {
-  const [name, setName] = useState<string>("");
+  const { login } = useAuth();
+  const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Submitted:", { name, password });
+    login(email, password);
     navigate("/dashboard");
   };
   return (
@@ -36,8 +38,8 @@ const Login = () => {
               <input
                 className={cx(styles.inputField)}
                 placeholder="username"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
           </label>
