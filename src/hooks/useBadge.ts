@@ -1,20 +1,33 @@
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { Expense, ExpenseUser } from '../interfaces/expenses';
 import type { SessionUser } from '../interfaces/user';
 import { createExpenseApi, getExpensesByUserId, updateExpenseApi } from '../api/expenses.api';
 
 interface Props{
     userId?: SessionUser['id'];
+    budgetUser?: SessionUser['budget']
 }
 
-const useBadge = ({userId}: Props) => {
+const useBadge = ({ userId, budgetUser }: Props) => {
+    
     const [budgetInput, setBudgetInput] = useState<number>(0);
-    const [budget, setBudget] = useState<number>(0);
+    const [budget, setBudget] = useState<number>(() => {
+        if (budgetUser) {
+            return budgetUser
+        } else {
+            return 0
+        }
+    });
     const [expensesList, setExpensesList] = useState<Expense[]>([]);
     const [selectedExpense, setSelectedExpense] = useState<Expense | null>(null);
-    const [expenses, setExpenses] = useState<number>(200);
     const [openModalExpense, setOpenModalExpense] = useState<boolean>(false);
+
+    const expenses = useMemo(() => {
+        return expensesList.reduce((acc, expense) => {
+            return acc + Number(expense.amount)
+        }, 0)
+    }, [expensesList])
 
     useEffect(() => {
         const getExpensesByUserIdHook = async () => {
@@ -26,7 +39,7 @@ const useBadge = ({userId}: Props) => {
             }
         }
         getExpensesByUserIdHook();
-    }, [userId]);
+    }, [userId, budgetUser]);
 
     const handleSelectedExpense = (expense: Expense | null) => {
         setSelectedExpense(expense);
@@ -58,7 +71,6 @@ const useBadge = ({userId}: Props) => {
         setSelectedExpense,
         setBudgetInput,
         setBudget,
-        setExpenses,
         setOpenModalExpense,
         handleSelectedExpense,
         createExpense,

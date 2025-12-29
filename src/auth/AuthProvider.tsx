@@ -1,21 +1,20 @@
 import { useState } from "react";
 import { AuthContext } from "./AuthContext";
-import users from "../db/users.json";
 import { createFakeJWT, decodeFakeJWT, saveToken } from "./utils";
 import type { SessionUser } from "../interfaces/user";
+import { getUser, updateUserBudgetApi } from "../api/users.api";
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<SessionUser | null>(() => decodeFakeJWT());
 
-  const login = (email: string, password: string) => {
-    const foundUser = users.find(
-      (user) => user.email === email && user.password === password
-    );
-    if (foundUser) {
+  const login = async (email: string, password: string) => {
+    const foundUser = await getUser(email, password);
+    if (foundUser.length) {
       const sessionUser = {
-        id: foundUser.id,
-        name: foundUser.name,
-        email: foundUser.email,
+        id: foundUser[0].id,
+        name: foundUser[0].name,
+        email: foundUser[0].email,
+        budget: foundUser[0].budget,
       };
       const token = createFakeJWT(sessionUser);
       saveToken(token);
@@ -26,6 +25,22 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const updateBudget = async (userId: string, budget: number) => {
+    const updatedUser = await updateUserBudgetApi(userId, budget);
+    if (updatedUser) {
+      const sessionUser = {
+        id: updatedUser.id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        budget: updatedUser.budget,
+      };
+      const token = createFakeJWT(sessionUser);
+      saveToken(token);
+      setUser(decodeFakeJWT());
+    }
+    console.log("el updatedUser", updatedUser);
+  };
+
   const logout = () => {};
 
   return (
@@ -33,6 +48,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       value={{
         user,
         login,
+        updateBudget,
         logout,
       }}
     >

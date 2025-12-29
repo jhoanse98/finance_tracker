@@ -11,9 +11,9 @@ const Login = () => {
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    login(email, password);
+    await login(email, password);
     navigate("/dashboard");
   };
   return (

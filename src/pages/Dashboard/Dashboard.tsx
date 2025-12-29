@@ -23,7 +23,7 @@ const Dashboard = () => {
     setOpenModalExpense,
     createExpense,
     updateExpenseById,
-  } = useBadge({ userId: user?.id });
+  } = useBadge({ userId: user?.id, budgetUser: user?.budget });
 
   const handleSelectedExpense = (expense: Expense | null) => {
     setSelectedExpense(expense);

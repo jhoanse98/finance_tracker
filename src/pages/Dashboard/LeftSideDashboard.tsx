@@ -1,9 +1,9 @@
-import React from "react";
 import { TextField, Button } from "@mui/material";
 import { cx } from "@emotion/css";
 import CircularProgressComponent from "../../components/CircularProgressComponent";
 import { styles } from "./DashboardStyles";
 import InfoText from "../../components/InfoText";
+import { useAuth } from "../../auth/useAuth";
 
 interface LeftSideDashboardProps {
   budget: number;
@@ -22,6 +22,13 @@ const LeftSideDashboard = ({
   setBudgetInput,
   setOpenModalExpense,
 }: LeftSideDashboardProps) => {
+  const { user, updateBudget } = useAuth();
+  const handleAddBudget = async () => {
+    setBudget(Number(budgetInput));
+    if (user) {
+      await updateBudget(user?.id, Number(budgetInput));
+    }
+  };
   return (
     <div className={cx(styles.leftSideContainer)}>
       <CircularProgressComponent budget={budget} expenses={expenses} />
@@ -38,10 +45,7 @@ const LeftSideDashboard = ({
           <Button
             variant="contained"
             fullWidth
-            onClick={() => {
-              setBudget(Number(budgetInput));
-              setBudgetInput(0);
-            }}
+            onClick={() => handleAddBudget()}
           >
             Set Budget
           </Button>

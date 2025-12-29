@@ -4,6 +4,7 @@ import type { SessionUser } from "../interfaces/user";
 interface AuthContextType {
   user: SessionUser | null;
   login: (email: string, password: string) => void;
+  updateBudget: (userId: string, budget: number) => void;
   logout: () => void;
 }
 

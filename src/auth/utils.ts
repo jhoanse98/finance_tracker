@@ -3,6 +3,7 @@ interface FakeUser {
   name: string;
   email: string;
     password: string;
+    budget: number;
     exp: number;
 }
 

@@ -3,30 +3,35 @@
         "id": "1",
         "name": "John Doe",
         "email": "john.doe@example.com",
+        "budget": 0,
         "password": "password123.."
     },
     {
         "id": "2",
         "name": "Jane Smith",
         "email": "jane.smith@example.com",
+        "budget": 0,
         "password": "Password456.."
     },
     {
         "id": "3",
         "name": "Bob Johnson",
         "email": "bob.johnson@example.com",
+        "budget": 0,
         "password": "Password789.."
     },
     {
         "id": "4",
         "name": "Alice Williams",
         "email": "alice.williams@example.com",
+        "budget": 0,
         "password": "Password015.."
     },
     {
         "id": "5",
         "name": "Sebastian Marín",
         "email": "sebastian.marin.val@gmail.com",
+        "budget": 0,
         "password": "Sebas1234.."
     }
 ]
