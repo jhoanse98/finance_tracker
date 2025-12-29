@@ -19,9 +19,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const token = createFakeJWT(sessionUser);
       saveToken(token);
       setUser(decodeFakeJWT());
-      console.log("Login successful:", foundUser);
+      return { status: 200, message: "OK" };
     } else {
-      console.log("Invalid credentials");
+      throw new Error("Credenciales incorrectas");
     }
   };
 

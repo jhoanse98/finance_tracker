@@ -13,6 +13,7 @@ import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 import { styles } from "./ExpensesFormStyles";
 import type { Expense, ExpenseUser } from "../../interfaces/expenses";
 import { useAuth } from "../../auth/useAuth";
+import { toast } from "react-toastify";
 
 interface IFormInput {
   title: string;
@@ -24,6 +25,8 @@ interface IFormInput {
 
 interface Props {
   selectedExpense: Expense | null;
+  budget: number;
+  expenses: number;
   onClose: () => void;
   createExpense: (newExpense: ExpenseUser) => Promise<void>;
   updateExpenseById: (
@@ -33,8 +36,10 @@ interface Props {
 }
 
 const ExpensesForm = ({
-  onClose,
   selectedExpense,
+  budget,
+  expenses,
+  onClose,
   createExpense,
   updateExpenseById,
 }: Props) => {
@@ -50,6 +55,10 @@ const ExpensesForm = ({
   });
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    if (Number(data.amount) + expenses > budget) {
+      toast.error("Este nuevo gasto excede el bolsillo restante");
+      return;
+    }
     if (selectedExpense) {
       await updateExpenseById(selectedExpense.id, {
         ...selectedExpense,
@@ -62,7 +71,6 @@ const ExpensesForm = ({
         onClose();
       }
     }
-    console.log(data);
   };
   return (
     <form

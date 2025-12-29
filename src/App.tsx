@@ -1,6 +1,8 @@
 import { AuthProvider } from "./auth/AuthProvider";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Login from "./pages/Login/Login";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   BrowserRouter as Router,
   Route,
@@ -28,6 +30,7 @@ function App() {
           </Routes>
         </Router>
       </AuthProvider>
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 }

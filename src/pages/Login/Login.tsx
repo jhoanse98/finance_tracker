@@ -4,6 +4,9 @@ import PersonIcon from "@mui/icons-material/Person";
 import { styles } from "./LoginStyles";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../auth/useAuth";
+import { toast } from "react-toastify";
+
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 const Login = () => {
   const { login } = useAuth();
@@ -13,8 +16,23 @@ const Login = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await login(email, password);
-    navigate("/dashboard");
+    if (email.length <= 0 || password.length <= 0 || !emailRegex.test(email)) {
+      toast.error("Campos faltantes o incompletos");
+    } else {
+      try {
+        const response: { status: number; message: string } = await login(
+          email,
+          password
+        );
+        if (response.status === 200) {
+          navigate("/dashboard");
+        }
+      } catch (error) {
+        if (error instanceof Error) {
+          return toast.error(error.message);
+        }
+      }
+    }
   };
   return (
     <div className={cx(styles.root)}>

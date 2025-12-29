@@ -45,11 +45,13 @@ const Dashboard = () => {
         }}
       >
         <ExpensesForm
+          selectedExpense={selectedExpense}
+          budget={budget}
+          expenses={expenses}
           onClose={() => {
             setOpenModalExpense(false);
             handleSelectedExpense(null);
           }}
-          selectedExpense={selectedExpense}
           createExpense={createExpense}
           updateExpenseById={updateExpenseById}
         />

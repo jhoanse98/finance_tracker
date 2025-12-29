@@ -4,6 +4,7 @@ import CircularProgressComponent from "../../components/CircularProgressComponen
 import { styles } from "./DashboardStyles";
 import InfoText from "../../components/InfoText";
 import { useAuth } from "../../auth/useAuth";
+import { toast } from "react-toastify";
 
 interface LeftSideDashboardProps {
   budget: number;
@@ -25,7 +26,7 @@ const LeftSideDashboard = ({
   const { user, updateBudget } = useAuth();
   const handleAddBudget = async () => {
     if (budgetInput < expenses) {
-      console.log("nooo error");
+      toast.error("El bolsillo no puede ser menor a los gastos totales");
     } else {
       setBudget(Number(budgetInput));
       if (user) {
@@ -55,11 +56,15 @@ const LeftSideDashboard = ({
           </Button>
         </div>
         <div className={cx(styles.leftSideTotalInfo)}>
-          <InfoText text="Budget" />
+          <InfoText text="Bolsillo:" />
           <InfoText text={budget.toString()} />
         </div>
         <div className={cx(styles.leftSideTotalInfo)}>
-          <InfoText text="total:" />
+          <InfoText text="Gastos:" />
+          <InfoText text={expenses.toString()} />
+        </div>
+        <div className={cx(styles.leftSideTotalInfo)}>
+          <InfoText text="Restante:" />
           <InfoText text={(budget - expenses).toString()} />
         </div>
         <Button
