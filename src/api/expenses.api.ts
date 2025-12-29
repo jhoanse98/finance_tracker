@@ -1,6 +1,6 @@
 import type { Expense } from "../interfaces/expenses";
 
-const API_URL = "http://localhost:3001";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const getExpensesByUserId = async (userId: string) => {
   const res = await fetch(

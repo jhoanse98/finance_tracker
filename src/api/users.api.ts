@@ -1,6 +1,6 @@
 import type { SessionUser } from "../interfaces/user";
 
-const API_URL = "http://localhost:3001";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const getUser = async (email: string, password: string) => {
       const res = await fetch(`${API_URL}/users?email=${email}&password=${password}`, {
