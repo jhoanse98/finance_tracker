@@ -1,14 +1,22 @@
-import { useState } from "react";
 import Modal from "../../components/Modal/Modal";
 import ExpensesForm from "../../components/ExpensesForm/ExpensesForm";
 import LeftSideDashboard from "./LeftSideDashboard";
 import RightSideDashboard from "./RightSideDashboard";
+import useBadge from "../../hooks/useBadge";
+import { useAuth } from "../../auth/useAuth";
 
 const Dashboard = () => {
-  const [budgetInput, setBudgetInput] = useState<number>(0);
-  const [budget, setBudget] = useState<number>(0);
-  const [expenses, setExpenses] = useState<number>(200);
-  const [openModalExpense, setOpenModalExpense] = useState<boolean>(false);
+  const { user } = useAuth();
+  const {
+    budgetInput,
+    expensesList,
+    setBudgetInput,
+    budget,
+    setBudget,
+    expenses,
+    openModalExpense,
+    setOpenModalExpense,
+  } = useBadge({ userId: user?.id });
 
   return (
     <div
@@ -39,7 +47,7 @@ const Dashboard = () => {
           setBudgetInput={setBudgetInput}
           setOpenModalExpense={setOpenModalExpense}
         />
-        <RightSideDashboard />
+        <RightSideDashboard expenses={expensesList} />
       </div>
     </div>
   );

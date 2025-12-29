@@ -5,11 +5,10 @@ import {
   LocalDining,
   Tv,
 } from "@mui/icons-material";
-import React from "react";
-import type { Expenses } from "../../interfaces/expenses";
+import type { Expense } from "../../interfaces/expenses";
 
 interface Props {
-  expenses: Expenses["expenses"];
+  expenses: Expense[];
 }
 
 const ExpensesList = ({ expenses }: Props) => {

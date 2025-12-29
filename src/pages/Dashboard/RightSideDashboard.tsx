@@ -1,8 +1,12 @@
 import React from "react";
-import expenses from "../../db/expenses.json";
 import ExpensesList from "./ExpensesList";
+import type { Expense } from "../../interfaces/expenses";
 
-const RightSideDashboard = () => {
+interface Props {
+  expenses: Expense[];
+}
+
+const RightSideDashboard = ({ expenses }: Props) => {
   return (
     <div
       style={{
