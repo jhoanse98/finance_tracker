@@ -5,6 +5,9 @@ export const styles = {
     display: "flex",
     width: 600,
     flexDirection: "column",
+    "@media (max-width:500px)": {
+      width: 340,
+    },
   }),
   headerModal: css({
     display: "flex",

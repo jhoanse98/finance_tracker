@@ -94,4 +94,7 @@ export const styles = {
       justifyContent: "flex-start",
     },
   }),
+  select: css({
+    height: 56,
+  }),
 };

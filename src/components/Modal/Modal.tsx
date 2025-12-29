@@ -11,7 +11,18 @@ interface Props {
 }
 const Modal = ({ open, children, onClose }: Props) => {
   return (
-    <Dialog open={open}>
+    <Dialog
+      open={open}
+      slotProps={{
+        paper: {
+          sx: {
+            "@media (max-width:500px)": {
+              margin: 2,
+            },
+          },
+        },
+      }}
+    >
       <div className={cx(styles.modalContainer)}>
         <div className={cx(styles.headerModal)}>
           <h3 style={{ margin: 0 }}>Nuevo gasto</h3>

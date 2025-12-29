@@ -18,19 +18,15 @@ export const styles = {
   }),
   container: css({
     width: "100%",
-    maxWidth: "28rem",
+    maxWidth: "24rem",
     rowGap: "2rem",
     borderRadius: "0.75rem",
     backgroundColor: "rgba(16, 22, 34, 0.5)",
     padding: "1.5rem",
     backdropFilter: "blur(4px)",
 
-    "@sm": {
-      padding: "2rem",
-    },
-
-    "@md": {
-      padding: "2.5rem",
+    "@media (max-width:500px)": {
+      maxWidth: "19rem",
     },
   }),
   iconContainer: css({

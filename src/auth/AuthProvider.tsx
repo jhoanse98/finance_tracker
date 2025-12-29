@@ -38,7 +38,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       saveToken(token);
       setUser(decodeFakeJWT());
     }
-    console.log("el updatedUser", updatedUser);
   };
 
   const logout = () => {};

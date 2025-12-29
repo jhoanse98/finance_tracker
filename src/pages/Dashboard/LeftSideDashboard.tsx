@@ -24,9 +24,13 @@ const LeftSideDashboard = ({
 }: LeftSideDashboardProps) => {
   const { user, updateBudget } = useAuth();
   const handleAddBudget = async () => {
-    setBudget(Number(budgetInput));
-    if (user) {
-      await updateBudget(user?.id, Number(budgetInput));
+    if (budgetInput < expenses) {
+      console.log("nooo error");
+    } else {
+      setBudget(Number(budgetInput));
+      if (user) {
+        await updateBudget(user?.id, Number(budgetInput));
+      }
     }
   };
   return (
