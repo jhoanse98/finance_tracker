@@ -7,6 +7,8 @@ import {
 } from "@mui/icons-material";
 import type { Expense } from "../../interfaces/expenses";
 import { Button } from "@mui/material";
+import { styles } from "./DashboardStyles";
+import { cx } from "@emotion/css";
 
 interface Props {
   expenses: Expense[];
@@ -35,51 +37,35 @@ const ExpensesList = ({
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: 16,
-        maxHeight: "350px",
-        overflowY: "auto",
-      }}
-    >
+    <div className={cx(styles.expensesContainer)}>
       {expenses.map((expense) => (
-        <div
-          key={expense.id}
-          style={{
-            width: "100%",
-            padding: "12px 16px",
-            background: "rgb(235,235,235)",
-            display: "flex",
-            justifyContent: "space-between",
-            boxSizing: "border-box",
-            alignItems: "center",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              gap: 8,
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                width: 48,
-                height: 48,
-              }}
-            >
+        <div key={expense.id} className={cx(styles.expenseInfo)}>
+          <div className={cx(styles.expenseStructure)}>
+            <div className={cx(styles.expenseImage)}>
               {getIconByCategory(expense?.category)}
             </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 1 }}>
-              <div>{expense?.title}</div>
-              <div>{`${expense?.category} - ${expense?.type}`}</div>
-              <div>{new Date(expense?.date).toLocaleDateString()}</div>
+            <div className={cx(styles.expenseText)}>
+              <p
+                style={{
+                  margin: 0,
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                {expense?.title}
+              </p>
+              <p
+                style={{
+                  margin: 0,
+                }}
+              >{`${expense?.category} - ${expense?.type}`}</p>
+              <p
+                style={{
+                  margin: 0,
+                }}
+              >
+                {new Date(expense?.date).toLocaleDateString()}
+              </p>
             </div>
           </div>
           <Button

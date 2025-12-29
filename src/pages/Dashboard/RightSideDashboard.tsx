@@ -1,6 +1,8 @@
 import React from "react";
 import ExpensesList from "./ExpensesList";
+import { styles } from "./DashboardStyles";
 import type { Expense } from "../../interfaces/expenses";
+import { cx } from "@emotion/css";
 
 interface Props {
   expenses: Expense[];
@@ -19,16 +21,7 @@ const RightSideDashboard = ({
   updateExpenseById,
 }: Props) => {
   return (
-    <div
-      style={{
-        flex: "1 0 0 ",
-        background: "white",
-        display: "flex",
-        justifyContent: "center",
-        padding: 24,
-        boxSizing: "border-box",
-      }}
-    >
+    <div className={cx(styles.rightSideContainer)}>
       <div style={{ width: "100%" }}>
         <h2>expenses</h2>
         <ExpensesList
