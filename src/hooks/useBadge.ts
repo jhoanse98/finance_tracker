@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from 'react'
-import type { Expense } from '../interfaces/expenses';
+import type { Expense, ExpenseUser } from '../interfaces/expenses';
 import type { SessionUser } from '../interfaces/user';
 import { createExpenseApi, getExpensesByUserId, updateExpenseApi } from '../api/expenses.api';
 
@@ -32,7 +32,7 @@ const useBadge = ({userId}: Props) => {
         setSelectedExpense(expense);
     };
 
-    const createExpense = async (newExpense: Expense) => {
+    const createExpense = async (newExpense: ExpenseUser) => {
         const createdExpense = await createExpenseApi(newExpense);
         setExpensesList((prevExpenses) => 
         [...prevExpenses, createdExpense]
