@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import { cx } from "@emotion/css";
 import PersonIcon from "@mui/icons-material/Person";
 import { styles } from "./LoginStyles";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../../auth/useAuth";
 import { toast } from "react-toastify";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 const Login = () => {
-  const { login } = useAuth();
+  const { login, user } = useAuth();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
@@ -34,6 +34,7 @@ const Login = () => {
       }
     }
   };
+  if (user) return <Navigate to={"/dashboard"} replace />;
   return (
     <div className={cx(styles.root)}>
       <div className={cx(styles.container)}>
