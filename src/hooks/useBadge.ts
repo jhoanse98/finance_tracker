@@ -32,7 +32,7 @@ const useBadge = ({userId}: Props) => {
         setSelectedExpense(expense);
     };
 
-    const createExpense = async (newExpense: Omit<Expense, "id">) => {
+    const createExpense = async (newExpense: Expense) => {
         const createdExpense = await createExpenseApi(newExpense);
         setExpensesList((prevExpenses) => 
         [...prevExpenses, createdExpense]

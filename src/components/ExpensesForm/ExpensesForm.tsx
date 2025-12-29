@@ -10,7 +10,8 @@ import {
 
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 import { styles } from "./ExpensesFormStyles";
-import type { Expense } from "../../interfaces/expenses";
+import type { Expense, ExpenseUser } from "../../interfaces/expenses";
+import { useAuth } from "../../auth/useAuth";
 
 interface IFormInput {
   title: string;
@@ -23,7 +24,7 @@ interface IFormInput {
 interface Props {
   selectedExpense: Expense | null;
   onClose: () => void;
-  createExpense: (newExpense: Omit<Expense, "id">) => Promise<void>;
+  createExpense: (newExpense: ExpenseUser) => Promise<void>;
   updateExpenseById: (
     expenseId: string,
     updatedExpense: Expense
@@ -38,6 +39,7 @@ const ExpensesForm = ({
   updateExpenseById,
   handleSelectedExpense,
 }: Props) => {
+  const { user } = useAuth();
   const { control, handleSubmit } = useForm<IFormInput>({
     defaultValues: {
       title: selectedExpense?.title || "",
@@ -57,8 +59,10 @@ const ExpensesForm = ({
       handleSelectedExpense(null);
       onClose();
     } else {
-      await createExpense(data);
-      onClose();
+      if (user) {
+        await createExpense({ ...data, userId: user.id });
+        onClose();
+      }
     }
     console.log(data);
   };
