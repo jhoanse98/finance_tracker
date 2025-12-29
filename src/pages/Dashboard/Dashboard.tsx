@@ -4,19 +4,28 @@ import LeftSideDashboard from "./LeftSideDashboard";
 import RightSideDashboard from "./RightSideDashboard";
 import useBadge from "../../hooks/useBadge";
 import { useAuth } from "../../auth/useAuth";
+import type { Expense } from "../../interfaces/expenses";
 
 const Dashboard = () => {
   const { user } = useAuth();
   const {
     budgetInput,
-    expensesList,
-    setBudgetInput,
     budget,
-    setBudget,
+    selectedExpense,
+    expensesList,
     expenses,
     openModalExpense,
+    setSelectedExpense,
+    setBudgetInput,
+    setBudget,
     setOpenModalExpense,
+    createExpense,
+    updateExpenseById,
   } = useBadge({ userId: user?.id });
+
+  const handleSelectedExpense = (expense: Expense | null) => {
+    setSelectedExpense(expense);
+  };
 
   return (
     <div
@@ -27,7 +36,13 @@ const Dashboard = () => {
       }}
     >
       <Modal open={openModalExpense} onClose={() => setOpenModalExpense(false)}>
-        <ExpensesForm onClose={() => setOpenModalExpense(false)} />
+        <ExpensesForm
+          onClose={() => setOpenModalExpense(false)}
+          selectedExpense={selectedExpense}
+          createExpense={createExpense}
+          updateExpenseById={updateExpenseById}
+          handleSelectedExpense={handleSelectedExpense}
+        />
       </Modal>
       <div
         style={{
@@ -47,7 +62,12 @@ const Dashboard = () => {
           setBudgetInput={setBudgetInput}
           setOpenModalExpense={setOpenModalExpense}
         />
-        <RightSideDashboard expenses={expensesList} />
+        <RightSideDashboard
+          expenses={expensesList}
+          setOpenModalExpense={setOpenModalExpense}
+          handleSelectedExpense={handleSelectedExpense}
+          updateExpenseById={updateExpenseById}
+        />
       </div>
     </div>
   );

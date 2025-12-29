@@ -1,8 +1,8 @@
-/* eslint-disable react-hooks/set-state-in-effect */
+
 import { useEffect, useState } from 'react'
-import expensesDB from '../db/expenses.json';
 import type { Expense } from '../interfaces/expenses';
 import type { SessionUser } from '../interfaces/user';
+import { createExpenseApi, getExpensesByUserId, updateExpenseApi } from '../api/expenses.api';
 
 interface Props{
     userId?: SessionUser['id'];
@@ -12,37 +12,57 @@ const useBadge = ({userId}: Props) => {
     const [budgetInput, setBudgetInput] = useState<number>(0);
     const [budget, setBudget] = useState<number>(0);
     const [expensesList, setExpensesList] = useState<Expense[]>([]);
+    const [selectedExpense, setSelectedExpense] = useState<Expense | null>(null);
     const [expenses, setExpenses] = useState<number>(200);
     const [openModalExpense, setOpenModalExpense] = useState<boolean>(false);
 
     useEffect(() => {
-        if(localStorage.getItem(`expenses`)){
-            const storedExpenses = localStorage.getItem(`expenses`);
-            console.log(storedExpenses)
-        } else {
-            const expensesUser = expensesDB.filter(expense => expense.userId === userId);
-            if (expensesUser.length) {
-                const newExpenses = expensesUser.map(expense => {
-                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                    const { userId, ...rest } = expense;
-                    console.log('muestra el rest', rest)
-                    return { ...rest, date: new Date(expense.date) };
-                });
-                setExpensesList(newExpenses);
+        const getExpensesByUserIdHook = async () => {
+            if (userId) {
+                const expenses = await getExpensesByUserId(userId)
+                if(expenses && Array.isArray(expenses)){
+                    setExpensesList(expenses);
+                }
             }
         }
-    }, [userId])
+        getExpensesByUserIdHook();
+    }, [userId]);
+
+    const handleSelectedExpense = (expense: Expense | null) => {
+        setSelectedExpense(expense);
+    };
+
+    const createExpense = async (newExpense: Omit<Expense, "id">) => {
+        const createdExpense = await createExpenseApi(newExpense);
+        setExpensesList((prevExpenses) => 
+        [...prevExpenses, createdExpense]
+        );
+    }
+
+    const updateExpenseById = async (expenseId: Expense['id'], updatedExpense: Expense) => {
+        await updateExpenseApi(expenseId, updatedExpense);
+        setExpensesList((prevExpenses) => 
+            prevExpenses.map((expense) => 
+                expense.id === expenseId ? updatedExpense : expense
+            )
+        );
+    }
 
     return {
-      budgetInput,
-      setBudgetInput,
+        budgetInput,
         budget,
-      expensesList,
-      setBudget,
-      expenses,
-      setExpenses,
-      openModalExpense,
-      setOpenModalExpense
+        expensesList,
+        selectedExpense,
+        expenses,
+        openModalExpense,
+        setSelectedExpense,
+        setBudgetInput,
+        setBudget,
+        setExpenses,
+        setOpenModalExpense,
+        handleSelectedExpense,
+        createExpense,
+        updateExpenseById
   }
 }
 

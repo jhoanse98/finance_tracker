@@ -10,31 +10,56 @@ import {
 
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 import { styles } from "./ExpensesFormStyles";
+import type { Expense } from "../../interfaces/expenses";
 
 interface IFormInput {
-  expenseName: string;
-  amount: string | number;
+  title: string;
+  amount: number;
   date: string;
   category: string;
   type: string;
 }
 
 interface Props {
+  selectedExpense: Expense | null;
   onClose: () => void;
+  createExpense: (newExpense: Omit<Expense, "id">) => Promise<void>;
+  updateExpenseById: (
+    expenseId: string,
+    updatedExpense: Expense
+  ) => Promise<void>;
+  handleSelectedExpense: (expense: Expense | null) => void;
 }
 
-const ExpensesForm = ({ onClose }: Props) => {
+const ExpensesForm = ({
+  onClose,
+  selectedExpense,
+  createExpense,
+  updateExpenseById,
+  handleSelectedExpense,
+}: Props) => {
   const { control, handleSubmit } = useForm<IFormInput>({
     defaultValues: {
-      expenseName: "",
-      amount: 0,
-      date: "",
-      category: "",
-      type: "",
+      title: selectedExpense?.title || "",
+      amount: selectedExpense?.amount || 0,
+      date: selectedExpense?.date || new Date().toISOString(),
+      category: selectedExpense?.category || "",
+      type: selectedExpense?.type || "",
     },
   });
 
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
+  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    if (selectedExpense) {
+      await updateExpenseById(selectedExpense.id, {
+        ...selectedExpense,
+        ...data,
+      });
+      handleSelectedExpense(null);
+      onClose();
+    } else {
+      await createExpense(data);
+      onClose();
+    }
     console.log(data);
   };
   return (
@@ -43,11 +68,11 @@ const ExpensesForm = ({ onClose }: Props) => {
       onSubmit={handleSubmit(onSubmit)}
     >
       <Controller
-        name="expenseName"
+        name="title"
         control={control}
         render={({ field }) => (
           <TextField
-            label="Expense Name"
+            label="Expense title"
             fullWidth
             margin="normal"
             {...field}
