@@ -14,7 +14,7 @@ const Modal = ({ open, children, onClose }: Props) => {
     <Dialog open={open}>
       <div className={cx(styles.modalContainer)}>
         <div className={cx(styles.headerModal)}>
-          <h3 style={{ margin: 0 }}>New expense</h3>
+          <h3 style={{ margin: 0 }}>Nuevo gasto</h3>
           <Close onClick={onClose} />
         </div>
         <div className={cx(styles.modalContent)}>{children}</div>

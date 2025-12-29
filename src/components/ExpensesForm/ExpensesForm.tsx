@@ -2,6 +2,7 @@ import { cx } from "@emotion/css";
 import {
   Button,
   FormControl,
+  FormHelperText,
   InputLabel,
   MenuItem,
   Select,
@@ -29,7 +30,6 @@ interface Props {
     expenseId: string,
     updatedExpense: Expense
   ) => Promise<void>;
-  handleSelectedExpense: (expense: Expense | null) => void;
 }
 
 const ExpensesForm = ({
@@ -37,14 +37,13 @@ const ExpensesForm = ({
   selectedExpense,
   createExpense,
   updateExpenseById,
-  handleSelectedExpense,
 }: Props) => {
   const { user } = useAuth();
   const { control, handleSubmit } = useForm<IFormInput>({
     defaultValues: {
       title: selectedExpense?.title || "",
       amount: selectedExpense?.amount || 0,
-      date: selectedExpense?.date || new Date().toISOString(),
+      date: selectedExpense?.date || "",
       category: selectedExpense?.category || "",
       type: selectedExpense?.type || "",
     },
@@ -56,7 +55,6 @@ const ExpensesForm = ({
         ...selectedExpense,
         ...data,
       });
-      handleSelectedExpense(null);
       onClose();
     } else {
       if (user) {
@@ -74,11 +72,22 @@ const ExpensesForm = ({
       <Controller
         name="title"
         control={control}
-        render={({ field }) => (
+        rules={{
+          required: "Título es requerido",
+        }}
+        render={({ field, fieldState }) => (
           <TextField
-            label="Expense title"
+            label="Título"
             fullWidth
-            margin="normal"
+            error={!!fieldState.error}
+            helperText={fieldState.error?.message}
+            slotProps={{
+              formHelperText: {
+                sx: {
+                  margin: 0,
+                },
+              },
+            }}
             {...field}
           />
         )}
@@ -86,12 +95,27 @@ const ExpensesForm = ({
       <Controller
         name="amount"
         control={control}
-        render={({ field }) => (
+        rules={{
+          required: "El monto es requerido",
+          min: {
+            value: 1,
+            message: "El monto debe ser mayor que 0",
+          },
+        }}
+        render={({ field, fieldState }) => (
           <TextField
-            label="Amount"
+            label="Monto"
             type="number"
             fullWidth
-            margin="normal"
+            slotProps={{
+              formHelperText: {
+                sx: {
+                  margin: 0,
+                },
+              },
+            }}
+            error={!!fieldState.error}
+            helperText={fieldState.error?.message}
             {...field}
           />
         )}
@@ -99,43 +123,68 @@ const ExpensesForm = ({
       <Controller
         name="date"
         control={control}
-        render={({ field }) => (
-          <TextField type="date" fullWidth margin="normal" {...field} />
+        rules={{
+          required: "La fecha es requerida",
+        }}
+        render={({ field, fieldState }) => (
+          <TextField
+            type="date"
+            fullWidth
+            error={!!fieldState.error}
+            helperText={fieldState.error?.message}
+            slotProps={{
+              formHelperText: {
+                sx: {
+                  margin: 0,
+                },
+              },
+            }}
+            {...field}
+          />
         )}
       />
       <Controller
         name="category"
         control={control}
-        render={({ field }) => (
+        rules={{
+          required: "La categoría es requerida",
+        }}
+        render={({ field, fieldState }) => (
           <FormControl
             fullWidth
+            error={!!fieldState.error}
             variant="standard"
             className={cx(styles.select)}
           >
-            <InputLabel id="category">Category</InputLabel>
+            <InputLabel id="category">Categoría</InputLabel>
             <Select fullWidth labelId="category" {...field}>
               <MenuItem value="" disabled>
-                Select Category
+                Selecciona categoría
               </MenuItem>
-              <MenuItem value="food">Food</MenuItem>
-              <MenuItem value="transportation">Transportation</MenuItem>
-              <MenuItem value="entertainment">Entertainment</MenuItem>
-              <MenuItem value="utilities">Utilities</MenuItem>
-              <MenuItem value="others">Others</MenuItem>
+              <MenuItem value="food">Comida</MenuItem>
+              <MenuItem value="transportation">Transporte</MenuItem>
+              <MenuItem value="entertainment">Entretenimiento</MenuItem>
+              <MenuItem value="utilities">útiles</MenuItem>
+              <MenuItem value="others">Otros</MenuItem>
             </Select>
+            <FormHelperText>{fieldState.error?.message}</FormHelperText>
           </FormControl>
         )}
       />
       <Controller
         name="type"
         control={control}
-        render={({ field }) => (
+        rules={{
+          required: "El tipo es requerido",
+        }}
+        render={({ field, fieldState }) => (
           <FormControl
             fullWidth
+            error={!!fieldState.error}
             variant="standard"
             className={cx(styles.select)}
           >
-            <InputLabel id="type">Type</InputLabel>
+            <InputLabel id="type">Tipo</InputLabel>
             <Select fullWidth labelId="type" {...field}>
               <MenuItem value="" disabled>
                 Select type
@@ -144,15 +193,22 @@ const ExpensesForm = ({
               <MenuItem value="ocassional">Occasional</MenuItem>
               <MenuItem value="Personal">Personal</MenuItem>
             </Select>
+            <FormHelperText>{fieldState.error?.message}</FormHelperText>
           </FormControl>
         )}
       />
       <div className={cx(styles.footerModal)}>
-        <Button variant="contained" type="button" onClick={() => onClose()}>
-          Close
+        <Button
+          variant="contained"
+          type="button"
+          onClick={() => {
+            onClose();
+          }}
+        >
+          Cancelar
         </Button>
         <Button variant="contained" color="primary" type="submit">
-          Save
+          {selectedExpense ? "Editar" : "Crear"}
         </Button>
       </div>
     </form>

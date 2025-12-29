@@ -35,13 +35,21 @@ const Dashboard = () => {
         background: "rgba(16, 22, 34)",
       }}
     >
-      <Modal open={openModalExpense} onClose={() => setOpenModalExpense(false)}>
+      <Modal
+        open={openModalExpense}
+        onClose={() => {
+          handleSelectedExpense(null);
+          setOpenModalExpense(false);
+        }}
+      >
         <ExpensesForm
-          onClose={() => setOpenModalExpense(false)}
+          onClose={() => {
+            handleSelectedExpense(null);
+            setOpenModalExpense(false);
+          }}
           selectedExpense={selectedExpense}
           createExpense={createExpense}
           updateExpenseById={updateExpenseById}
-          handleSelectedExpense={handleSelectedExpense}
         />
       </Modal>
       <div
