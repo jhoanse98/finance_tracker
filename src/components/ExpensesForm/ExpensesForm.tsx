@@ -55,21 +55,17 @@ const ExpensesForm = ({
   });
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    if (Number(data.amount) + expenses > budget) {
+      toast.error("Este nuevo gasto excede el bolsillo restante");
+      return;
+    }
     if (selectedExpense) {
-      if (Number(data.amount) + expenses - selectedExpense.amount > budget) {
-        toast.error("Este nuevo gasto excede el bolsillo restante");
-        return;
-      }
       await updateExpenseById(selectedExpense.id, {
         ...selectedExpense,
         ...data,
       });
       onClose();
     } else {
-      if (Number(data.amount) + expenses > budget) {
-        toast.error("Este nuevo gasto excede el bolsillo restante");
-        return;
-      }
       if (user) {
         await createExpense({ ...data, userId: user.id });
         onClose();

@@ -10,8 +10,7 @@
     "test:watch": "jest --watch",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "json-server": "^0.17.4"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@emotion/css": "^11.13.5",
