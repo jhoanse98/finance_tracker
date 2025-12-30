@@ -1,5 +1,3 @@
-import React from "react";
-
 const InfoText = ({ text }: { text: string }) => {
   return (
     <p
