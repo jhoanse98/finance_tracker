@@ -1,73 +1,33 @@
-# React + TypeScript + Vite
+# Finance Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Proyecto sencillo para la gestión de gastos a partir de un budget o bolsillo ingresado por el usuario.
 
-Currently, two official plugins are available:
+## Stack utilizado:
+  1. React - TS
+  2. React Context para el manejo de estado global del usuario
+  3. Persistencia de sesión simulando una funcionalidad de autenticación con JWT (no se usó un backend para esto)
+  4. React hook form para la gestión del formulario para creación de gastos.
+  5. material UI como librería externa para uso de componentes (TextField, Dialog)
+  6. json server para la simulación de backend.
+  7. jest y react testing library para la ejecución de test unitarios para el custom hook useBudget.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## React Compiler
-
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
+## ¿Cómo instalar?
+  1. npm install
+  2. crear en la raíz del proyecto el archivo db.json (simula la BD para la api)
+  ```
+  db.json
   {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+    "users": [],
+    "expenses": []
+  }
+  ```
+  3. Dentro del proyecto en la carpeta db existen dos archivos: expenses.json y users.json.
+  4. Agregar un usuario al menos en el archivo db.json para poder iniciar sesión en la aplicación (puedes copiar alguno de users.json).
+  5. ejecutar el comando **npm run api** para levantar la api con json-server habilitando estos 2 endpoints con todas sus funciones CRUD:
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+  ```
+  http://localhost:3001/users
+  http://localhost:3001/expenses
+  ```
+  6. En otra terminal ejecutar **npm run dev**
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
